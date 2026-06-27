@@ -1,7 +1,7 @@
 "use client";
 
 import { Briefcase, Factory, Magnifier, Star } from "@gravity-ui/icons";
-
+import { motion } from "motion/react"
 const stats = [
   { id: 1, icon: <Briefcase className="h-5 w-5" />, value: "50K", label: "Active Jobs" },
   { id: 2, icon: <Factory className="h-5 w-5" />, value: "12K", label: "Companies" },
@@ -30,11 +30,15 @@ export default function Banner() {
 
         {/* Heading */}
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl md:text-4xl font-medium leading-relaxed text-white/90">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-3xl md:text-4xl font-medium leading-relaxed text-white/90">
             Assisting over <span className="font-bold">15,000 job seekers</span>
             <br />
             find their dream positions.
-          </h2>
+          </motion.h2>
         </div>
 
         {/* Stats Cards */}
