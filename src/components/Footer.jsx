@@ -81,7 +81,7 @@ export default function Footer() {
 
           {/* Copyright + Links */}
           <div className="flex flex-col sm:flex-row items-center gap-2 text-sm">
-            <span>Copyright 2024 — Programming Hero</span>
+            <span>Copyright 2024 — Tashim Tishan</span>
             <span className="hidden sm:block text-white/20">|</span>
             <div className="flex gap-1">
               <Link href="#" className="hover:text-white transition-colors">Terms & Policy</Link>
