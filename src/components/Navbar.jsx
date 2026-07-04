@@ -20,7 +20,8 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#222222] border-b border-white/5 container mx-auto rounded-lg mt-5 mb-5">
+   <div className="border-b border-white/5">
+     <nav className="sticky top-0 z-50 bg-[#222222] border-b border-white/5 container mx-auto rounded-lg mt-5 mb-5">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
 
         {/* Logo */}
@@ -80,5 +81,6 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+   </div>
   );
 }
