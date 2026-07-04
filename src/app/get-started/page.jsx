@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { Button, Form, Input, TextField, Label, FieldError } from "@heroui/react";
+import { Description, Radio, RadioGroup } from "@heroui/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -9,10 +10,10 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 
 const RegisterPage = () => {
-const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const onSubmit = async (e) => {
     e.preventDefault()
-      setLoading(true) 
+    setLoading(true)
     const formData = new FormData(e.currentTarget)
     const user = Object.fromEntries(formData.entries())
 
@@ -22,12 +23,12 @@ const [loading, setLoading] = useState(false)
       name: user.name,
       password: user.password,
     })
-      setLoading(false)
+    setLoading(false)
     if (data) redirect("/")
-   if (error) alert(error.message)
+    if (error) alert(error.message)
   }
 
-  
+
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 py-16">
@@ -96,11 +97,34 @@ const [loading, setLoading] = useState(false)
             <FieldError className="text-red-400 text-xs mt-1" />
           </TextField>
 
+          {/* role */}
+          <div className="flex flex-col gap-4">
+            <Label>Select Your Role</Label>
+            <RadioGroup defaultValue="seeker" name="role" orientation="horizontal">
+              <Radio value="seeker">
+                <Radio.Content>
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
+                  seeker
+                </Radio.Content>
+              </Radio>
+              <Radio value="recruiter">
+                <Radio.Content>
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
+                  recruiter
+                </Radio.Content>
+              </Radio>
+            </RadioGroup>
+          </div>
+
           {/* Submit */}
           <button
             type="submit"
             className="w-full mt-2 py-2.5 rounded-xl bg-[#6D28D9] hover:bg-[#7C3AED] text-white text-sm font-semibold transition-colors shadow-[0_0_20px_rgba(109,40,217,0.35)]"
-            
+
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>
@@ -115,7 +139,7 @@ const [loading, setLoading] = useState(false)
           {/* Google */}
           <button
             type="button"
-        
+
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white text-sm font-medium transition-colors"
           >
             <FcGoogle className="w-5 h-5" />
