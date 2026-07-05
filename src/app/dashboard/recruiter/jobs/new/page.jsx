@@ -1,18 +1,25 @@
 'use client'
 
 import { useState } from 'react';
-
+import { postJob } from "@/lib/actions/jobs";
 const NewJobPage = () => {
   const [isRemote, setIsRemote] = useState(false);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
   data.isRemote = isRemote;
   console.log(data);
-  };
 
+  const result = await postJob(data);
+  if (result.success) {
+    alert('Job posted successfully!');
+    e.target.reset();
+  } else {
+    alert('Failed to post job. Please try again.');
+  };
+  }
   return (
     <div className="min-h-screen bg-[#131314] px-6 py-10">
       <div className="max-w-7xl mx-auto">
