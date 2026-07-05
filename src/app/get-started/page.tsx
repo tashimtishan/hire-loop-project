@@ -11,18 +11,23 @@ import { useState } from "react";
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false)
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
+    const email = formData.get("email") as string;
+    const name = formData.get("name") as string;
+    const password = formData.get("password") as string;
+    const image = formData.get("image") as string;
+    const role = formData.get("role") as string;
     const user = Object.fromEntries(formData.entries())
 
     const { data, error } = await authClient.signUp.email({
-      email: user.email,
-      image: user.image,
-      name: user.name,
-      password: user.password,
-      role: user.role
+      email,
+    image,
+    name,
+    password,
+    role,
     })
     setLoading(false)
     if (data) redirect("/")

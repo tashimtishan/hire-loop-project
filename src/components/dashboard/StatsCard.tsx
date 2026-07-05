@@ -1,4 +1,10 @@
-const StatsCard = ({ icon, label, value }) => {
+type StatsCardProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+};
+
+const StatsCard = ({ icon, label, value }: StatsCardProps) => {
   return (
     <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 flex flex-col gap-6">
       <div className="text-gray-400">{icon}</div>
