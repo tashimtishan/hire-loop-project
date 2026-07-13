@@ -2,23 +2,42 @@
 
 import { useState } from 'react';
 import { postJob } from "@/lib/actions/jobs";
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import { getRecruiterCompany } from "@/lib/actions/company";
 const NewJobPage = () => {
+  const router = useRouter();
   const [isRemote, setIsRemote] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const { data: session } = authClient.useSession();
   const onSubmit = async (e) => {
     e.preventDefault();
-  const formData = new FormData(e.target);
-  const data = Object.fromEntries(formData.entries());
-  data.isRemote = isRemote;
-  console.log(data);
+    setLoading(true);
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    data.isRemote = isRemote;
+    data.recruiterId = session?.user?.id;
+    data.status = "active";
+    data.createdAt = new Date();
+    console.log(data);
 
-  const result = await postJob(data);
-  if (result.success) {
-    alert('Job posted successfully!');
-    e.target.reset();
-  } else {
-    alert('Failed to post job. Please try again.');
-  };
+
+    const companies = await getRecruiterCompany(session?.user?.id);
+    if (companies.length > 0) {
+      data.companyId = companies[0]._id;
+      data.companyName = companies[0].name;
+      data.companyLogo = companies[0].logo;
+    }
+
+    const result = await postJob(data);
+    setLoading(false);
+    if (result.success) {
+      alert('Job posted successfully!');
+      e.target.reset();
+      router.push('/dashboard/recruiter/jobs');
+    } else {
+      alert('Failed to post job. Please try again.');
+    };
   }
   return (
     <div className="min-h-screen bg-[#131314] px-6 py-10">
@@ -237,9 +256,10 @@ const NewJobPage = () => {
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#6D28D9] hover:bg-[#7C3AED] transition-colors shadow-[0_0_20px_rgba(109,40,217,0.35)]"
             >
-              Post Job
+              {loading ? 'Posting...' : 'Post Job'}
             </button>
           </div>
 

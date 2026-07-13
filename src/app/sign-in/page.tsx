@@ -3,25 +3,29 @@
 import { authClient } from "@/lib/auth-client";
 import { Form, Input, TextField, Label, FieldError } from "@heroui/react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 
 const LoginPage = () => {
 const [loading, setLoading] = useState(false)
-  const onSubmit = async (e) => {
+   const searchParams = useSearchParams();
+   const router = useRouter();
+   const redirectTo=searchParams.get("redirect") || "/";
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
      setLoading(true)
     const formData = new FormData(e.currentTarget)
-    const user = Object.fromEntries(formData.entries())
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
     const { data, error } = await authClient.signIn.email({
-      email: user.email,
-      password: user.password,
+      email,
+      password,
     })
       setLoading(false)
-    if (data) redirect("/")
+    if (data) router.push(redirectTo)
     if (error) alert("Invalid email or password")
   }
 
@@ -86,7 +90,7 @@ const [loading, setLoading] = useState(false)
           {/* Register link */}
           <p className="text-center text-gray-400 text-sm">
             Don&apos;t have an account?{" "}
-            <Link href="/get-started" className="text-violet-400 hover:text-violet-300 font-semibold">
+            <Link href={`/get-started?redirect=${redirectTo}`} className="text-violet-400 hover:text-violet-300 font-semibold">
               Register
             </Link>
           </p>

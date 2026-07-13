@@ -31,7 +31,7 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-6">
-         <Link href="/jobs" className="text-base text-white hover:text-indigo-400">Browse Jobs</Link>
+         <Link href="/browsejobs" className="text-base text-white hover:text-indigo-400">Browse Jobs</Link>
           <Link href="/company" className="text-base text-white hover:text-indigo-400">Company</Link>
           <Link href="/pricing" className="text-base text-white hover:text-indigo-400">Pricing</Link>
         </div>

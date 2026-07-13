@@ -4,12 +4,15 @@ import { authClient } from "@/lib/auth-client";
 import { Button, Form, Input, TextField, Label, FieldError } from "@heroui/react";
 import { Description, Radio, RadioGroup } from "@heroui/react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 
 const RegisterPage = () => {
+  const searchParams = useSearchParams();
+     const router = useRouter();
+     const redirectTo=searchParams.get("redirect") || "/";
   const [loading, setLoading] = useState(false)
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,7 +33,7 @@ const RegisterPage = () => {
     role,
     })
     setLoading(false)
-    if (data) redirect("/")
+    if (data) router.push(redirectTo)
     if (error) alert(error.message)
   }
 
@@ -155,7 +158,7 @@ const RegisterPage = () => {
           {/* Login link */}
           <p className="text-center text-gray-400 text-sm">
             Already have an account?{" "}
-            <Link href="/sign-in" className="text-violet-400 hover:text-violet-300 font-semibold">
+            <Link href={`/sign-in?redirect=${redirectTo}`} className="text-violet-400 hover:text-violet-300 font-semibold">
               Sign In
             </Link>
           </p>
